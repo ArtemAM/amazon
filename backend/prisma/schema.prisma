@@ -24,7 +24,7 @@ model User {
   updatedAt  DateTime @updatedAt @map("updated_at")
 }
 
-model Products {
+model Product {
   id          Int            @id @default(autoincrement())
   createdAt   DateTime       @default(now()) @map("created_at")
   updatedAt   DateTime       @updatedAt @map("updated_at")
@@ -36,10 +36,10 @@ model Products {
 }
 
 model ProductImage {
-  id         Int       @id @default(autoincrement())
-  imageUrl   String    @map("image_url")
-  Products   Products? @relation(fields: [productsId], references: [id])
-  productsId Int?      @map("products_id")
+  id        Int      @id @default(autoincrement())
+  imageUrl  String   @map("image_url")
+  product   Product? @relation(fields: [productId], references: [id])
+  productId Int?     @map("product_id")
 }
 
 model Category {
