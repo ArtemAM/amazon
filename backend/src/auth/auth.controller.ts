@@ -7,7 +7,7 @@ import {
 } from "@nestjs/common"
 import { AuthService } from "./auth.service"
 import { AuthDto } from "./dto/auth.dto"
-import { refreshTokenDto } from "./dto/refreshToken.dto"
+import { refreshTokenDto } from "./dto/refresh-token.dto"
 
 @Controller("auth")
 export class AuthController {
