@@ -58,3 +58,12 @@ model Review {
   rating Int
   text   String
 }
+
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  quantity Int
+  price    Int
+}
