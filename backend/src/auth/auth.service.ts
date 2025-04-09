@@ -4,6 +4,7 @@ import { AuthDto } from "./auth.dto"
 import { faker } from "@faker-js/faker"
 import { hash } from "argon2"
 import { JwtService } from "@nestjs/jwt"
+import { User } from "@prisma/client"
 
 @Injectable()
 export class AuthService {
@@ -42,5 +43,12 @@ export class AuthService {
     })
 
     return { accessToken, refreshToken }
+  }
+
+  private returnUserFields(user: User) {
+    return {
+      id: user.id,
+      email: user.email
+    }
   }
 }
