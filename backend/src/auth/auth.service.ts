@@ -1,10 +1,15 @@
-import { BadRequestException, Injectable } from "@nestjs/common"
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException
+} from "@nestjs/common"
 import { PrismaService } from "src/prisma.service"
 import { AuthDto } from "./dto/auth.dto"
 import { faker } from "@faker-js/faker"
 import { hash, verify } from "argon2"
 import { JwtService } from "@nestjs/jwt"
 import { User } from "@prisma/client"
+import { refreshTokenDto } from "./dto/refresh-token.dto"
 
 @Injectable()
 export class AuthService {
@@ -20,6 +25,27 @@ export class AuthService {
     return {
       user: this.returnUserFields(user),
       ...tokens
+    }
+  }
+
+  async refreshToken(dto: refreshTokenDto) {
+    try {
+      const payload = this.jwt.verify<{ id: number }>(dto.refreshToken)
+      const user = await this.prisma.user.findUnique({
+        where: { id: payload.id }
+      })
+
+      if (!user)
+        throw new UnauthorizedException("Invalid or expired refresh token")
+
+      const tokens = this.generateTokens(user.id)
+
+      return {
+        user: this.returnUserFields(user),
+        ...tokens
+      }
+    } catch {
+      throw new UnauthorizedException("Invalid or expired refresh token")
     }
   }
 
