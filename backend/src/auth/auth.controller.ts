@@ -17,4 +17,10 @@ export class AuthController {
   async regsiter(@Body() dto: AuthDto) {
     return this.authService.register(dto)
   }
+
+  @UsePipes(ValidationPipe)
+  @Post("login")
+  async login(@Body() dto: AuthDto) {
+    return this.authService.login(dto)
+  }
 }
