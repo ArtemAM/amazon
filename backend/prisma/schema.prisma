@@ -38,6 +38,7 @@ model Product {
 
   images     ProductImage[]
   orderItems OrderItem[]
+  reviews    Review[]
 }
 
 model ProductImage {
@@ -65,6 +66,9 @@ model Review {
 
   user   User? @relation(fields: [userId], references: [id])
   userId Int?  @map("user_id")
+
+  product   Product? @relation(fields: [productId], references: [id])
+  productId Int?     @map("product_id")
 }
 
 model OrderItem {
