@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from "@nestjs/common"
 import { PrismaService } from "src/prisma.service"
 import { AuthDto } from "./auth.dto"
 import { faker } from "@faker-js/faker"
-import { hash } from "argon2"
+import { hash, verify } from "argon2"
 import { JwtService } from "@nestjs/jwt"
 import { User } from "@prisma/client"
 
@@ -56,5 +56,20 @@ export class AuthService {
       id: user.id,
       email: user.email
     }
+  }
+
+  private async validateUser(dto: AuthDto) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: dto.email
+      }
+    })
+    if (!user) throw new BadRequestException("Incorrect email or password")
+
+    const isValidPassword = await verify(user.password, dto.password)
+    if (!isValidPassword)
+      throw new BadRequestException("Incorrect email or password")
+
+    return user
   }
 }
