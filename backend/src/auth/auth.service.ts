@@ -31,4 +31,16 @@ export class AuthService {
     })
     return user
   }
+
+  private generateTokens(userId: number) {
+    const payload = { id: userId }
+    const accessToken = this.jwt.sign(payload, {
+      expiresIn: "1h"
+    })
+    const refreshToken = this.jwt.sign(payload, {
+      expiresIn: "7d"
+    })
+
+    return { accessToken, refreshToken }
+  }
 }
