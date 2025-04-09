@@ -20,7 +20,7 @@ export class AuthService {
 
   async login(dto: AuthDto) {
     const user = await this.validateUser(dto)
-    const tokens = this.generateTokens(user.id)
+    const tokens = await this.generateTokens(user.id)
 
     return {
       user: this.returnUserFields(user),
@@ -38,7 +38,7 @@ export class AuthService {
       if (!user)
         throw new UnauthorizedException("Invalid or expired refresh token")
 
-      const tokens = this.generateTokens(user.id)
+      const tokens = await this.generateTokens(user.id)
 
       return {
         user: this.returnUserFields(user),
@@ -68,7 +68,7 @@ export class AuthService {
       }
     })
 
-    const tokens = this.generateTokens(user.id)
+    const tokens = await this.generateTokens(user.id)
 
     return {
       user: this.returnUserFields(user),
@@ -76,14 +76,16 @@ export class AuthService {
     }
   }
 
-  private generateTokens(userId: number) {
+  private async generateTokens(userId: number) {
     const payload = { id: userId }
-    const accessToken = this.jwt.sign(payload, {
-      expiresIn: "1h"
-    })
-    const refreshToken = this.jwt.sign(payload, {
-      expiresIn: "7d"
-    })
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwt.signAsync(payload, {
+        expiresIn: "1h"
+      }),
+      this.jwt.signAsync(payload, {
+        expiresIn: "7d"
+      })
+    ])
 
     return { accessToken, refreshToken }
   }
