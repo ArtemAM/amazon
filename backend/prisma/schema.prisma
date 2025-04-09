@@ -39,6 +39,9 @@ model Product {
   images     ProductImage[]
   orderItems OrderItem[]
   reviews    Review[]
+
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId Int?      @map("category_id")
 }
 
 model ProductImage {
@@ -54,6 +57,8 @@ model Category {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   name String @unique
+
+  products Product[]
 }
 
 model Review {
