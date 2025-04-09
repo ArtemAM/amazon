@@ -12,6 +12,17 @@ export class AuthService {
     private prisma: PrismaService,
     private jwt: JwtService
   ) {}
+
+  async login(dto: AuthDto) {
+    const user = await this.validateUser(dto)
+    const tokens = this.generateTokens(user.id)
+
+    return {
+      user: this.returnUserFields(user),
+      ...tokens
+    }
+  }
+
   async register(dto: AuthDto) {
     const existUser = await this.prisma.user.findUnique({
       where: {
