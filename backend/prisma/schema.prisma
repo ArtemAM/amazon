@@ -66,4 +66,23 @@ model OrderItem {
 
   quantity Int
   price    Int
+
+  order   Order? @relation(fields: [orderId], references: [id])
+  orderId Int?   @map("order_id")
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  status EnumOrderStatus @default(PENDING)
+  items  OrderItem[]
+}
+
+enum EnumOrderStatus {
+  PENDING
+  PAYED
+  SHIPPED
+  DELIVERED
 }
