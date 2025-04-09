@@ -30,7 +30,13 @@ export class AuthService {
         password: await hash(dto.password)
       }
     })
-    return user
+
+    const tokens = this.generateTokens(user.id)
+
+    return {
+      user: this.returnUserFields(user),
+      ...tokens
+    }
   }
 
   private generateTokens(userId: number) {
