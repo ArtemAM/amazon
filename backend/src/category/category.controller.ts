@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Post,
   Put,
   UsePipes,
   ValidationPipe
@@ -28,5 +29,12 @@ export class CategoryController {
     @Body() dto: CategoryDto
   ) {
     return this.categoryService.update(+categoryId, dto)
+  }
+
+  @UsePipes(ValidationPipe)
+  @Auth()
+  @Post()
+  async create() {
+    return this.categoryService.create()
   }
 }
