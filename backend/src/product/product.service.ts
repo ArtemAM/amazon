@@ -4,6 +4,8 @@ import {
   productSelectObject,
   productSelectObjectFullest
 } from "./product.select"
+import { ProductDto } from "./product.dto"
+import { faker } from "@faker-js/faker"
 
 @Injectable()
 export class ProductService {
@@ -80,5 +82,28 @@ export class ProductService {
     })
 
     return product.id
+  }
+
+  async update(id: number, dto: ProductDto) {
+    // Возможно здесь ошибка на images
+    return await this.prisma.product.update({
+      where: { id },
+      data: {
+        description: dto.description,
+        price: dto.price,
+        name: dto.name,
+        slug: faker.helpers.slugify(dto.name).toLowerCase(),
+        category: {
+          connect: {
+            id: dto.categoryId
+          }
+        },
+        images: {
+          create: dto.images?.map(image => ({
+            imageUrl: image.imageUrl
+          }))
+        }
+      }
+    })
   }
 }
