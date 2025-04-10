@@ -44,4 +44,13 @@ export class ReviewService {
       }
     })
   }
+
+  async getAverageRatingByProductId(productId: number) {
+    const data = await this.prisma.review.aggregate({
+      where: { productId },
+      _avg: { rating: true }
+    })
+
+    return data._avg
+  }
 }
