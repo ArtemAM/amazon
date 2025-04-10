@@ -5,6 +5,7 @@ import {
 } from "@nestjs/common"
 import { PrismaService } from "src/prisma.service"
 import { UserDto } from "./user.dto"
+import { hash } from "argon2"
 
 @Injectable()
 export class UserService {
@@ -51,8 +52,20 @@ export class UserService {
         email: dto.email,
         name: dto.name,
         phone: dto.phone,
-        avatarPath: dto.avatarPath
+        avatarPath: dto.avatarPath,
+        password: dto.password
+          ? await hash(dto.password)
+          : await this.getUserPassword(userId)
       }
     })
+  }
+
+  private async getUserPassword(userId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { password: true }
+    })
+
+    return user?.password
   }
 }
