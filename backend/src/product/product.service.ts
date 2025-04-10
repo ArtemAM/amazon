@@ -16,4 +16,15 @@ export class ProductService {
 
     return product
   }
+
+  async getBySlug(slug: string) {
+    const product = await this.prisma.product.findUnique({
+      where: { slug },
+      select: productSelectObjectFullest
+    })
+
+    if (!product) throw new NotFoundException("Product not found")
+
+    return product
+  }
 }
