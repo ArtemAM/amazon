@@ -6,6 +6,7 @@ import { ConfigModule } from "@nestjs/config"
 import { UserModule } from "./user/user.module"
 import { CategoryModule } from "./category/category.module"
 import { ReviewModule } from "./review/review.module"
+import { StatisticsModule } from "./statistics/statistics.module"
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { ReviewModule } from "./review/review.module"
     AuthModule,
     UserModule,
     CategoryModule,
-    ReviewModule
+    ReviewModule,
+    StatisticsModule
   ],
   controllers: [AppController],
   providers: [AppService]
