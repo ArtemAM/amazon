@@ -1,4 +1,19 @@
-import { Injectable } from "@nestjs/common"
+import { Injectable, NotFoundException } from "@nestjs/common"
+import { PrismaService } from "src/prisma.service"
+import { productSelectObjectFullest } from "./product.select"
 
 @Injectable()
-export class ProductService {}
+export class ProductService {
+  constructor(private prisma: PrismaService) {}
+
+  async getById(id: number) {
+    const product = await this.prisma.product.findUnique({
+      where: { id },
+      select: productSelectObjectFullest
+    })
+
+    if (!product) throw new NotFoundException("Product not found")
+
+    return product
+  }
+}
