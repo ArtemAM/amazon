@@ -1,6 +1,9 @@
 import { Injectable, NotFoundException } from "@nestjs/common"
 import { PrismaService } from "src/prisma.service"
-import { productSelectObjectFullest } from "./product.select"
+import {
+  productSelectObject,
+  productSelectObjectFullest
+} from "./product.select"
 
 @Injectable()
 export class ProductService {
@@ -41,5 +44,28 @@ export class ProductService {
     if (!products) throw new NotFoundException("Product not found")
 
     return products
+  }
+
+  async getSimilar(productId: number) {
+    const currentProduct = await this.getById(productId)
+
+    if (!currentProduct) throw new NotFoundException("Product not found")
+
+    const similarProducts = await this.prisma.product.findMany({
+      where: {
+        category: {
+          name: currentProduct.category?.name
+        },
+        NOT: {
+          id: currentProduct.id
+        }
+      },
+      orderBy: {
+        createdAt: "desc"
+      },
+      select: productSelectObject
+    })
+
+    return similarProducts
   }
 }
