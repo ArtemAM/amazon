@@ -68,4 +68,17 @@ export class ProductService {
 
     return similarProducts
   }
+
+  async create() {
+    const product = await this.prisma.product.create({
+      data: {
+        description: "",
+        name: "",
+        price: 0,
+        slug: ""
+      }
+    })
+
+    return product.id
+  }
 }
