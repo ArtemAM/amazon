@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  Param,
+  Patch,
   Put,
   UsePipes,
   ValidationPipe
@@ -26,5 +28,14 @@ export class UserController {
   @Auth()
   async updateProfile(@CurrentUser("id") userId: number, @Body() dto: UserDto) {
     return this.userService.updateProfile(userId, dto)
+  }
+
+  @Auth()
+  @Patch("profile/favorites/:productId")
+  async toggleFavorite(
+    @Param("productId") productId: string,
+    @CurrentUser("id") userId: number
+  ) {
+    return this.userService.toggleFavorite(+productId, userId)
   }
 }
