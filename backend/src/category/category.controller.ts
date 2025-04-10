@@ -42,7 +42,6 @@ export class CategoryController {
     return this.categoryService.update(+categoryId, dto)
   }
 
-  @UsePipes(ValidationPipe)
   @Auth()
   @Post()
   async create() {
