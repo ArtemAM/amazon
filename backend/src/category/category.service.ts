@@ -31,4 +31,10 @@ export class CategoryService {
       }
     })
   }
+
+  async delete(id: number) {
+    return this.prisma.category.delete({
+      where: { id }
+    })
+  }
 }
