@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common"
 import { PrismaService } from "src/prisma.service"
 import { CategoryDto } from "./category.dto"
 import { faker } from "@faker-js/faker"
+import { categorySelectObject } from "./category.select"
 
 @Injectable()
 export class CategoryService {
@@ -20,11 +21,7 @@ export class CategoryService {
   async getCategoryById(id: number) {
     const category = await this.prisma.category.findUnique({
       where: { id },
-      select: {
-        id: true,
-        name: true,
-        slug: true
-      }
+      select: categorySelectObject
     })
 
     if (!category) throw new NotFoundException("Category not found")
@@ -35,11 +32,7 @@ export class CategoryService {
   async getCategoryBySlug(slug: string) {
     const category = await this.prisma.category.findUnique({
       where: { slug },
-      select: {
-        id: true,
-        name: true,
-        slug: true
-      }
+      select: categorySelectObject
     })
 
     if (!category) throw new NotFoundException("Category not found")
