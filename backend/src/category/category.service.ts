@@ -37,4 +37,13 @@ export class CategoryService {
       where: { id }
     })
   }
+
+  async create() {
+    return await this.prisma.category.create({
+      data: {
+        name: "",
+        slug: ""
+      }
+    })
+  }
 }
