@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common"
 import { PrismaService } from "src/prisma.service"
 import { ReviewDto } from "./review.dto"
+import { reviewSelectObject } from "./review.select"
 
 @Injectable()
 export class ReviewService {
@@ -11,19 +12,7 @@ export class ReviewService {
       orderBy: {
         createdAt: "desc"
       },
-      select: {
-        id: true,
-        rating: true,
-        text: true,
-        createdAt: true,
-        user: {
-          select: {
-            id: true,
-            name: true,
-            avatarPath: true
-          }
-        }
-      }
+      select: reviewSelectObject
     })
   }
 
