@@ -6,12 +6,13 @@ import {
 import { PrismaService } from "src/prisma.service"
 import { UserDto } from "./user.dto"
 import { hash } from "argon2"
+import { Prisma } from "@prisma/client"
 
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async getUserById(userId: number) {
+  async getUserById(userId: number, selectObj: Prisma.UserSelect = {}) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -29,7 +30,8 @@ export class UserService {
             images: true,
             slug: true
           }
-        }
+        },
+        ...selectObj
       }
     })
 
