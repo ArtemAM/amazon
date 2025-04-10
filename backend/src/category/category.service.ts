@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common"
 import { PrismaService } from "src/prisma.service"
 import { CategoryDto } from "./category.dto"
-import { faker } from "@faker-js/faker/."
+import { faker } from "@faker-js/faker"
 
 @Injectable()
 export class CategoryService {
