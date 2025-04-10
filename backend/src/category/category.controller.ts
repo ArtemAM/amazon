@@ -21,6 +21,12 @@ export class CategoryController {
     return this.categoryService.getAll()
   }
 
+  @Auth()
+  @Get(":categoryId")
+  async getById(@Param("categoryId") categoryId: string) {
+    return this.categoryService.getCategoryById(+categoryId)
+  }
+
   @UsePipes(ValidationPipe)
   @Auth()
   @Put(":categoryId")
