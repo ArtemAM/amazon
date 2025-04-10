@@ -37,4 +37,10 @@ export class CategoryController {
   async create() {
     return this.categoryService.create()
   }
+
+  @Auth()
+  @Post(":categoryId")
+  async delete(@Param("categoryId") categoryId: string) {
+    return this.categoryService.delete(+categoryId)
+  }
 }
