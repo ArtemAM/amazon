@@ -52,7 +52,7 @@ export class CategoryService {
       where: { id },
       data: {
         name: dto.name,
-        slug: faker.helpers.slugify(dto.name)
+        slug: faker.helpers.slugify(dto.name).toLowerCase()
       }
     })
   }
