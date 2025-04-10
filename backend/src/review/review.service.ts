@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common"
 import { PrismaService } from "src/prisma.service"
+import { ReviewDto } from "./review.dto"
 
 @Injectable()
 export class ReviewService {
@@ -20,6 +21,24 @@ export class ReviewService {
             id: true,
             name: true,
             avatarPath: true
+          }
+        }
+      }
+    })
+  }
+
+  async create(userId: number, dto: ReviewDto, productId: number) {
+    return await this.prisma.review.create({
+      data: {
+        ...dto,
+        user: {
+          connect: {
+            id: userId
+          }
+        },
+        product: {
+          connect: {
+            id: productId
           }
         }
       }
