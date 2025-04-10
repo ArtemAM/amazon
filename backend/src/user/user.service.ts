@@ -62,4 +62,23 @@ export class UserService {
       data
     })
   }
+
+  async toggleFavorite(productId: number, userId: number) {
+    const user = await this.getUserById(userId)
+
+    const isExist = user.favorites.some(product => product.id === productId)
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        favorites: {
+          [isExist ? "disconnect" : "connect"]: {
+            id: productId
+          }
+        }
+      }
+    })
+
+    return { status: isExist ? "removed" : "added" }
+  }
 }
