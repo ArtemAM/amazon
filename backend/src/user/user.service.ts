@@ -46,26 +46,20 @@ export class UserService {
       throw new BadRequestException("User with this email already exists")
     }
 
+    const data: UserDto = {
+      email: dto.email,
+      name: dto.name,
+      phone: dto.phone,
+      avatarPath: dto.avatarPath
+    }
+
+    if (dto.password) {
+      data.password = await hash(dto.password)
+    }
+
     return await this.prisma.user.update({
       where: { id: userId },
-      data: {
-        email: dto.email,
-        name: dto.name,
-        phone: dto.phone,
-        avatarPath: dto.avatarPath,
-        password: dto.password
-          ? await hash(dto.password)
-          : await this.getUserPassword(userId)
-      }
+      data
     })
-  }
-
-  private async getUserPassword(userId: number) {
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
-      select: { password: true }
-    })
-
-    return user?.password
   }
 }
