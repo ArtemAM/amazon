@@ -7,6 +7,16 @@ import { faker } from "@faker-js/faker/."
 export class CategoryService {
   constructor(private prisma: PrismaService) {}
 
+  async getAll() {
+    return await this.prisma.category.findMany({
+      select: {
+        id: true,
+        name: true,
+        slug: true
+      }
+    })
+  }
+
   async getCategoryById(id: number) {
     const category = await this.prisma.category.findUnique({
       where: { id },
