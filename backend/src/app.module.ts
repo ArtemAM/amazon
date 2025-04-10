@@ -9,6 +9,7 @@ import { ReviewModule } from "./review/review.module"
 import { StatisticsModule } from "./statistics/statistics.module"
 import { PaginationModule } from "./pagination/pagination.module"
 import { OrderModule } from "./order/order.module"
+import { ProductModule } from "./product/product.module"
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { OrderModule } from "./order/order.module"
     ReviewModule,
     StatisticsModule,
     PaginationModule,
-    OrderModule
+    OrderModule,
+    ProductModule
   ],
   controllers: [AppController],
   providers: [AppService]
