@@ -1,4 +1,4 @@
-import { IsArray, IsNumber, IsOptional, IsString, IsUrl } from "class-validator"
+import { IsArray, IsNumber, IsOptional, IsString } from "class-validator"
 
 export class ProductDto {
   @IsString()
@@ -16,6 +16,5 @@ export class ProductDto {
 
   @IsOptional()
   @IsArray()
-  @IsUrl({}, { each: true })
-  images: string[]
+  images: { imageUrl: string }[]
 }
