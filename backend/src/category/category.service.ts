@@ -22,6 +22,21 @@ export class CategoryService {
     return category
   }
 
+  async getCategoryBySlug(slug: string) {
+    const category = await this.prisma.category.findUnique({
+      where: { slug },
+      select: {
+        id: true,
+        name: true,
+        slug: true
+      }
+    })
+
+    if (!category) throw new NotFoundException("Category not found")
+
+    return category
+  }
+
   async update(id: number, dto: CategoryDto) {
     return await this.prisma.category.update({
       where: { id },
