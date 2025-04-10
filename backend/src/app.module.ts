@@ -7,6 +7,7 @@ import { UserModule } from "./user/user.module"
 import { CategoryModule } from "./category/category.module"
 import { ReviewModule } from "./review/review.module"
 import { StatisticsModule } from "./statistics/statistics.module"
+import { PaginationModule } from "./pagination/pagination.module"
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { StatisticsModule } from "./statistics/statistics.module"
     UserModule,
     CategoryModule,
     ReviewModule,
-    StatisticsModule
+    StatisticsModule,
+    PaginationModule
   ],
   controllers: [AppController],
   providers: [AppService]
