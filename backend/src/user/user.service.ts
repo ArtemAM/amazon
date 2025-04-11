@@ -7,6 +7,8 @@ import { PrismaService } from "src/prisma.service"
 import { UserDto } from "./user.dto"
 import { hash } from "argon2"
 import { Prisma } from "@prisma/client"
+import { faker } from "@faker-js/faker"
+import { AuthDto } from "src/auth/dto/auth.dto"
 
 @Injectable()
 export class UserService {
@@ -41,6 +43,18 @@ export class UserService {
 
   async getUserByEmail(email: string) {
     return this.prisma.user.findUnique({ where: { email } })
+  }
+
+  async create(dto: AuthDto) {
+    return this.prisma.user.create({
+      data: {
+        email: dto.email,
+        name: faker.person.fullName(),
+        phone: faker.phone.number({ style: "national" }),
+        avatarPath: faker.image.avatar(),
+        password: await hash(dto.password)
+      }
+    })
   }
 
   async updateProfile(userId: number, dto: UserDto) {
