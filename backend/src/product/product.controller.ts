@@ -1,8 +1,10 @@
 import {
+  Body,
   Controller,
   Get,
   Param,
   Post,
+  Put,
   Query,
   UsePipes,
   ValidationPipe
@@ -10,6 +12,7 @@ import {
 import { ProductService } from "./product.service"
 import { GetAllProductDto } from "./get-all.product.dto"
 import { Auth } from "src/auth/decorators/auth.decorator"
+import { ProductDto } from "./product.dto"
 
 @Controller("products")
 export class ProductController {
@@ -41,5 +44,12 @@ export class ProductController {
   @Post()
   async createProduct() {
     return this.productService.create()
+  }
+
+  @UsePipes(ValidationPipe)
+  @Auth()
+  @Put(":id")
+  async updateProduct(@Param("id") id: string, @Body() dto: ProductDto) {
+    return this.productService.update(+id, dto)
   }
 }
