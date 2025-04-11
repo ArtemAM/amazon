@@ -9,4 +9,9 @@ export class ProductController {
   async getSimilar(@Param("id") id: string) {
     return this.productService.getSimilar(+id)
   }
+
+  @Get("by-slug/:slug")
+  async getBySlug(@Param("slug") slug: string) {
+    return this.productService.getBySlug(slug)
+  }
 }
