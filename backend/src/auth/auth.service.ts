@@ -5,17 +5,18 @@ import {
 } from "@nestjs/common"
 import { PrismaService } from "src/prisma.service"
 import { AuthDto } from "./dto/auth.dto"
-import { faker } from "@faker-js/faker"
-import { hash, verify } from "argon2"
+import { verify } from "argon2"
 import { JwtService } from "@nestjs/jwt"
 import { User } from "@prisma/client"
 import { refreshTokenDto } from "./dto/refresh-token.dto"
+import { UserService } from "src/user/user.service"
 
 @Injectable()
 export class AuthService {
   constructor(
     private prisma: PrismaService,
-    private jwt: JwtService
+    private jwt: JwtService,
+    private userService: UserService
   ) {}
 
   async login(dto: AuthDto) {
@@ -31,9 +32,7 @@ export class AuthService {
   async refreshToken(dto: refreshTokenDto) {
     try {
       const payload = this.jwt.verify<{ id: number }>(dto.refreshToken)
-      const user = await this.prisma.user.findUnique({
-        where: { id: payload.id }
-      })
+      const user = await this.userService.getUserById(payload.id)
 
       if (!user)
         throw new UnauthorizedException("Invalid or expired refresh token")
@@ -50,23 +49,11 @@ export class AuthService {
   }
 
   async register(dto: AuthDto) {
-    const existUser = await this.prisma.user.findUnique({
-      where: {
-        email: dto.email
-      }
-    })
+    const existUser = await this.userService.getUserByEmail(dto.email)
     if (existUser) {
       throw new BadRequestException("User with this email already exists")
     }
-    const user = await this.prisma.user.create({
-      data: {
-        email: dto.email,
-        name: faker.name.fullName(),
-        phone: faker.phone.number({ style: "national" }),
-        avatarPath: faker.image.avatar(),
-        password: await hash(dto.password)
-      }
-    })
+    const user = await this.userService.create(dto)
 
     const tokens = await this.generateTokens(user.id)
 
@@ -98,11 +85,7 @@ export class AuthService {
   }
 
   private async validateUser(dto: AuthDto) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        email: dto.email
-      }
-    })
+    const user = await this.userService.getUserByEmail(dto.email)
     if (!user) throw new BadRequestException("Incorrect email or password")
 
     const isValidPassword = await verify(user.password, dto.password)
