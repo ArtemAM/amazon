@@ -1,9 +1,23 @@
-import { Controller, Get, Param } from "@nestjs/common"
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  UsePipes,
+  ValidationPipe
+} from "@nestjs/common"
 import { ProductService } from "./product.service"
+import { GetAllProductDto } from "./get-all.product.dto"
 
-@Controller("product")
+@Controller("products")
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
+
+  @UsePipes(ValidationPipe)
+  @Get()
+  async getAll(@Query() queryDto: GetAllProductDto) {
+    return this.productService.getAll(queryDto)
+  }
 
   @Get("similar/:id")
   async getSimilar(@Param("id") id: string) {
