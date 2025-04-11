@@ -6,10 +6,75 @@ import {
 } from "./product.select"
 import { ProductDto } from "./product.dto"
 import { faker } from "@faker-js/faker"
+import { EnumProductsSort, GetAllProductDto } from "./get-all.product.dto"
+import { PaginationService } from "src/pagination/pagination.service"
+import { Prisma } from "@prisma/client"
 
 @Injectable()
 export class ProductService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private paginationService: PaginationService
+  ) {}
+
+  async getAll(dto: GetAllProductDto = {}) {
+    const { sort, searchTerm } = dto
+    const prismaSearch: Prisma.ProductOrderByWithRelationInput[] = []
+
+    if (sort === EnumProductsSort.LOW_PRICE) {
+      prismaSearch.push({ price: "asc" })
+    } else if (sort === EnumProductsSort.HIGH_PRICE) {
+      prismaSearch.push({ price: "desc" })
+    } else if (sort === EnumProductsSort.NEWEST) {
+      prismaSearch.push({ createdAt: "desc" })
+    } else if (sort === EnumProductsSort.OLDEST) {
+      prismaSearch.push({ createdAt: "asc" })
+    }
+
+    // не работает поле mode, поэтому используем toLowerCase()
+    const prismaSearchTermFilter: Prisma.ProductWhereInput = searchTerm
+      ? {
+          OR: [
+            {
+              name: {
+                contains: searchTerm.toLowerCase()
+                // mode: "insensitive" // не работает
+              }
+            },
+            {
+              description: {
+                contains: searchTerm.toLowerCase()
+              }
+            },
+            {
+              category: {
+                is: {
+                  name: {
+                    contains: searchTerm.toLowerCase()
+                  }
+                }
+              }
+            }
+          ]
+        }
+      : {}
+
+    const { perPage, skip } = this.paginationService.getPagination(dto)
+
+    const products = await this.prisma.product.findMany({
+      where: prismaSearchTermFilter,
+      orderBy: prismaSearch,
+      select: productSelectObjectFullest,
+      take: perPage,
+      skip
+    })
+
+    const countProducts = await this.prisma.product.count({
+      where: prismaSearchTermFilter
+    })
+
+    return { products, countProducts }
+  }
 
   async getById(id: number) {
     const product = await this.prisma.product.findUnique({
