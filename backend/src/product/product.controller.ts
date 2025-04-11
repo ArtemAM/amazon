@@ -25,6 +25,11 @@ export class ProductController {
     return this.productService.getAll(queryDto)
   }
 
+  @Get(":id")
+  async getById(@Param("id") id: string) {
+    return this.productService.getById(+id)
+  }
+
   @Get("similar/:id")
   async getSimilar(@Param("id") id: string) {
     return this.productService.getSimilar(+id)
