@@ -2,12 +2,14 @@ import {
   Controller,
   Get,
   Param,
+  Post,
   Query,
   UsePipes,
   ValidationPipe
 } from "@nestjs/common"
 import { ProductService } from "./product.service"
 import { GetAllProductDto } from "./get-all.product.dto"
+import { Auth } from "src/auth/decorators/auth.decorator"
 
 @Controller("products")
 export class ProductController {
@@ -32,5 +34,12 @@ export class ProductController {
   @Get("by-category/:categorySlug")
   async getByCategory(@Param("categorySlug") categorySlug: string) {
     return this.productService.getByCategory(categorySlug)
+  }
+
+  @UsePipes(ValidationPipe)
+  @Auth()
+  @Post()
+  async createProduct() {
+    return this.productService.create()
   }
 }
