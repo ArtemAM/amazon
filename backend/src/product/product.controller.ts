@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -39,7 +40,6 @@ export class ProductController {
     return this.productService.getByCategory(categorySlug)
   }
 
-  @UsePipes(ValidationPipe)
   @Auth()
   @Post()
   async createProduct() {
@@ -51,5 +51,12 @@ export class ProductController {
   @Put(":id")
   async updateProduct(@Param("id") id: string, @Body() dto: ProductDto) {
     return this.productService.update(+id, dto)
+  }
+
+  @UsePipes(ValidationPipe)
+  @Auth()
+  @Delete(":id")
+  async deleteProduct(@Param("id") id: string) {
+    return this.productService.delete(+id)
   }
 }
