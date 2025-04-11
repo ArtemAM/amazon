@@ -5,16 +5,16 @@ export class ProductDto {
   name: string
 
   @IsNumber()
-  price?: number
+  price: number
 
   @IsOptional()
   @IsString()
-  description: string
+  description?: string
 
   @IsNumber()
   categoryId: number
 
   @IsOptional()
   @IsArray()
-  images: { imageUrl: string }[]
+  images?: { imageUrl: string }[]
 }
