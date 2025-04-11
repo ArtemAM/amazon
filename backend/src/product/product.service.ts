@@ -9,12 +9,14 @@ import { faker } from "@faker-js/faker"
 import { EnumProductsSort, GetAllProductDto } from "./get-all.product.dto"
 import { PaginationService } from "src/pagination/pagination.service"
 import { Prisma } from "@prisma/client"
+import { CategoryService } from "src/category/category.service"
 
 @Injectable()
 export class ProductService {
   constructor(
     private prisma: PrismaService,
-    private paginationService: PaginationService
+    private paginationService: PaginationService,
+    private categoryService: CategoryService
   ) {}
 
   async getAll(dto: GetAllProductDto = {}) {
@@ -150,6 +152,7 @@ export class ProductService {
   }
 
   async update(id: number, dto: ProductDto) {
+    const category = await this.categoryService.getCategoryById(dto.categoryId)
     // Возможно здесь ошибка на images
     return await this.prisma.product.update({
       where: { id },
@@ -160,7 +163,7 @@ export class ProductService {
         slug: faker.helpers.slugify(dto.name).toLowerCase(),
         category: {
           connect: {
-            id: dto.categoryId
+            id: category.id
           }
         },
         images: {
