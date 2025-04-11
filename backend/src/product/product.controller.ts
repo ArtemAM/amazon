@@ -14,4 +14,9 @@ export class ProductController {
   async getBySlug(@Param("slug") slug: string) {
     return this.productService.getBySlug(slug)
   }
+
+  @Get("by-category/:categorySlug")
+  async getByCategory(@Param("categorySlug") categorySlug: string) {
+    return this.productService.getByCategory(categorySlug)
+  }
 }
