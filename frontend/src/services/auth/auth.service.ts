@@ -5,11 +5,11 @@ import { IAuthResponse } from '@/store/user.interface'
 import axios from 'axios'
 
 export const AuthService = {
-  async refreshToken() {
+  async refreshToken(): Promise<IAuthResponse | null> {
     const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN)
     if (!refreshToken) {
       console.warn('Refresh token отсутствует в localStorage')
-      return
+      return null
     }
     try {
       const response = await axios.post<
@@ -22,8 +22,11 @@ export const AuthService = {
       )
 
       if (response.data.accessToken) saveUserToStorage(response.data)
+
+      return response.data
     } catch (error) {
       console.warn('Ошибка при обновлении токена', error)
+      return null
     }
   }
 }
