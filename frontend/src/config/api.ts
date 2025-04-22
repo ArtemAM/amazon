@@ -22,3 +22,14 @@ export const REVIEW_ENDPOINTS = {
 export const STATISTICS_ENDPOINTS = {
   GET_USER_OVERVIEW: '/statistics/main'
 }
+
+export const PRODUCT_ENDPOINTS = {
+  GET_ALL: '/products',
+  GET_BY_ID: '/products/:productId',
+  GET_BY_SLUG: '/products/by-slug/:slug',
+  GET_BY_CATEGORY: '/products/by-category/:categorySlug',
+  GET_SIMILAR: '/products/similar/:productId',
+  CREATE: '/products',
+  UPDATE_BY_ID: '/products/:productId',
+  DELETE_BY_ID: '/products/:productId'
+}
