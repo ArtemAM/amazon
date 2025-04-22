@@ -4,9 +4,9 @@ import {
   removeFromStorage
 } from '@/services/auth/auth.helper'
 import { AuthService } from '@/services/auth/auth.service'
-import axios from 'axios'
+import axios, { AxiosInstance } from 'axios'
 
-export const instance = axios.create({
+export const instance: AxiosInstance = axios.create({
   baseURL: process.env.SERVER_URL,
   headers: getContentType()
 })
