@@ -25,3 +25,8 @@ export const getUserFromStorage = (): IAuthResponse['user'] | null => {
   const user = localStorage.getItem(STORAGE_KEYS.USER)
   return user ? JSON.parse(user) : null
 }
+
+export const removeFromStorage = (): void => {
+  removeTokensFromStorage()
+  localStorage.removeItem(STORAGE_KEYS.USER)
+}
