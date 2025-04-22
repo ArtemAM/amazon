@@ -3,6 +3,9 @@ export interface IReview {
   rating: number
   text: string
   createdAt: Date
+}
+
+export interface IReviewWithUser extends IReview {
   user: IReviewUser
 }
 
