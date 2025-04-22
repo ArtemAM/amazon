@@ -13,5 +13,12 @@ export const CategoryService = {
       CATEGORY_ENDPOINTS.GET_BY_ID.replace(':categoryId', categoryId)
     )
     return response.data
+  },
+
+  async getBySlug(slug: string): Promise<ICategory> {
+    const response = await instance.get<ICategory>(
+      CATEGORY_ENDPOINTS.GET_BY_SLUG.replace(':slug', slug)
+    )
+    return response.data
   }
 }
