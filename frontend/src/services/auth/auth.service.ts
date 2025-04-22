@@ -1,8 +1,8 @@
 import { saveUserToStorage } from './auth.helper'
 import { catchError, getContentType } from '@/api/api.helper'
 import { instance } from '@/api/api.interceptor'
-import { AUTH_ENDPOINTS } from '@/constants/api'
-import { STORAGE_KEYS } from '@/constants/storage'
+import { AUTH_ENDPOINTS } from '@/config/api'
+import { STORAGE_KEYS } from '@/config/storage'
 import { IAuthResponse, IEmailPassword } from '@/store/user.interface'
 import axios from 'axios'
 

@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from '@/constants/storage'
+import { STORAGE_KEYS } from '@/config/storage'
 import { IAuthResponse, ITokens } from '@/store/user.interface'
 import Cookies from 'js-cookie'
 
