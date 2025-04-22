@@ -8,3 +8,8 @@ export interface ITokens {
 export interface IAuthResponse extends ITokens {
   user: IUser
 }
+
+export interface IEmailPassword {
+  email: string
+  password: string
+}
