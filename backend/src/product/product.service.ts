@@ -145,7 +145,7 @@ export class ProductService {
       }
     })
 
-    return product.id
+    return { productId: product.id }
   }
 
   async update(id: number, dto: ProductDto) {
