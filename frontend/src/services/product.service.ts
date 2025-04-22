@@ -22,5 +22,12 @@ export const ProductService = {
       PRODUCT_ENDPOINTS.GET_BY_CATEGORY.replace(':categorySlug', categorySlug)
     )
     return response.data
+  },
+
+  async getSimilar(productId: string): Promise<IProduct[]> {
+    const response = await instance.get<IProduct[]>(
+      PRODUCT_ENDPOINTS.GET_SIMILAR.replace(':productId', productId)
+    )
+    return response.data
   }
 }
