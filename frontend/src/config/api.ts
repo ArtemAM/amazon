@@ -18,3 +18,7 @@ export const REVIEW_ENDPOINTS = {
   LEAVE: '/leave/:productId',
   GET_AVERAGE_RATING_BY_PRODUCT_ID: '/average/:productId'
 } as const
+
+export const STATISTICS_ENDPOINTS = {
+  GET_USER_OVERVIEW: '/statistics/main'
+}
