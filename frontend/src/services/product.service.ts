@@ -8,5 +8,12 @@ export const ProductService = {
       PRODUCT_ENDPOINTS.GET_BY_ID.replace(':productId', productId)
     )
     return response.data
+  },
+
+  async getBySlug(slug: string): Promise<IProduct> {
+    const response = await instance.get<IProduct>(
+      PRODUCT_ENDPOINTS.GET_BY_SLUG.replace(':slug', slug)
+    )
+    return response.data
   }
 }
