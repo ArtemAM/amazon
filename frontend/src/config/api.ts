@@ -16,5 +16,5 @@ export const CATEGORY_ENDPOINTS = {
 export const REVIEW_ENDPOINTS = {
   GET_ALL: '/reviews',
   LEAVE: '/leave/:productId',
-  GET_AVERAGE: '/average/:productId'
+  GET_AVERAGE_RATING_BY_PRODUCT_ID: '/average/:productId'
 } as const
