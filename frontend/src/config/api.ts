@@ -2,7 +2,7 @@ export const AUTH_ENDPOINTS = {
   LOGIN: '/auth/login',
   REGISTER: '/auth/register',
   REFRESH_TOKEN: '/auth/login/refresh-token'
-}
+} as const
 
 export const CATEGORY_ENDPOINTS = {
   GET_ALL: '/categories',
@@ -11,4 +11,10 @@ export const CATEGORY_ENDPOINTS = {
   UPDATE_BY_ID: '/categories/:categoryId',
   CREATE: '/categories',
   DELETE_BY_ID: '/categories/:categoryId'
-}
+} as const
+
+export const REVIEW_ENDPOINTS = {
+  GET_ALL: '/reviews',
+  LEAVE: '/leave/:productId',
+  GET_AVERAGE: '/average/:productId'
+} as const
