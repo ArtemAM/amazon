@@ -1,6 +1,10 @@
 import { instance } from '@/api/api.interceptor'
 import { PRODUCT_ENDPOINTS } from '@/config/api'
-import { IProduct, IProductBase } from '@/interfaces/product.interface'
+import {
+  IProduct,
+  IProductBase,
+  IProductDTO
+} from '@/interfaces/product.interface'
 
 export const ProductService = {
   async getById(productId: string): Promise<IProduct> {
@@ -34,6 +38,14 @@ export const ProductService = {
   async create(): Promise<{ productId: number }> {
     const response = await instance.post<{ productId: number }>(
       PRODUCT_ENDPOINTS.CREATE
+    )
+    return response.data
+  },
+
+  async update(productId: string, data: IProductDTO): Promise<IProduct> {
+    const response = await instance.put<IProduct>(
+      PRODUCT_ENDPOINTS.UPDATE_BY_ID.replace(':productId', productId),
+      data
     )
     return response.data
   },
