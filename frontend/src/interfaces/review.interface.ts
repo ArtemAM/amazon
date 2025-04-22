@@ -19,3 +19,8 @@ export interface IReviewUser {
   name: string
   avatarPath: string | null
 }
+
+export interface IReviewData {
+  rating: number
+  text: string
+}
