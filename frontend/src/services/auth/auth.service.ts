@@ -1,10 +1,29 @@
 import { saveUserToStorage } from './auth.helper'
-import { getContentType } from '@/api/api.helper'
+import { catchError, getContentType } from '@/api/api.helper'
+import { instance } from '@/api/api.interceptor'
 import { STORAGE_KEYS } from '@/constants/storage'
-import { IAuthResponse } from '@/store/user.interface'
+import { IAuthResponse, IEmailPassword } from '@/store/user.interface'
 import axios from 'axios'
 
 export const AuthService = {
+  async authRequest(
+    type: 'login' | 'register',
+    data: IEmailPassword
+  ): Promise<IAuthResponse> {
+    try {
+      const response = await instance.post<IAuthResponse>(`/auth/${type}`, data)
+
+      if (response.data.accessToken) {
+        saveUserToStorage(response.data)
+      }
+
+      return response.data
+    } catch (error) {
+      const message = catchError(error)
+      throw new Error(message)
+    }
+  },
+
   async refreshToken(): Promise<IAuthResponse | null> {
     const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN)
     if (!refreshToken) {
