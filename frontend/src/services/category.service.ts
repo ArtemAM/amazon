@@ -22,6 +22,11 @@ export const CategoryService = {
     return response.data
   },
 
+  async create(): Promise<ICategory> {
+    const response = await instance.post<ICategory>(CATEGORY_ENDPOINTS.CREATE)
+    return response.data
+  },
+
   async deleteById(categoryId: string): Promise<ICategory> {
     const response = await instance.delete<ICategory>(
       CATEGORY_ENDPOINTS.DELETE_BY_ID.replace(':categoryId', categoryId)
