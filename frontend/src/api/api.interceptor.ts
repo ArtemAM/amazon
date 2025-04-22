@@ -1,8 +1,12 @@
-import { getContentType } from './api.helper'
-import { getAccessTokenFromStorage } from '@/services/auth/auth.helper'
+import { catchError, getContentType } from './api.helper'
+import {
+  getAccessTokenFromStorage,
+  removeFromStorage
+} from '@/services/auth/auth.helper'
+import { AuthService } from '@/services/auth/auth.service'
 import axios from 'axios'
 
-const instance = axios.create({
+export const instance = axios.create({
   baseURL: process.env.SERVER_URL,
   headers: getContentType()
 })
@@ -14,3 +18,21 @@ instance.interceptors.request.use(config => {
   }
   return config
 })
+
+instance.interceptors.response.use(
+  config => config,
+  async error => {
+    const originalRequest = error.config
+    if (error.response.status === 401 && !originalRequest._isRetry) {
+      originalRequest._isRetry = true
+      try {
+        await AuthService.refreshToken()
+        return instance.request(originalRequest)
+      } catch (error) {
+        if (catchError(error) === 'jwt expired') {
+          removeFromStorage()
+        }
+      }
+    }
+  }
+)
