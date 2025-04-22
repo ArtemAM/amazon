@@ -1,9 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common"
 import { PrismaService } from "src/prisma.service"
-import {
-  productSelectObject,
-  productSelectObjectFullest
-} from "./product.select"
+import { productSelectObjectFullest } from "./product.select"
 import { ProductDto } from "./product.dto"
 import { faker } from "@faker-js/faker"
 import { EnumProductsSort, GetAllProductDto } from "./get-all.product.dto"
@@ -132,7 +129,7 @@ export class ProductService {
       orderBy: {
         createdAt: "desc"
       },
-      select: productSelectObject
+      select: productSelectObjectFullest
     })
 
     return similarProducts
