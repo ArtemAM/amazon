@@ -23,5 +23,15 @@ export const ReviewService = {
       data
     )
     return response.data
+  },
+
+  async getAverageRatingByProductId(productId: string): Promise<number> {
+    const response = await instance.get<{ rating: number }>(
+      REVIEW_ENDPOINTS.GET_AVERAGE_RATING_BY_PRODUCT_ID.replace(
+        ':productId',
+        productId
+      )
+    )
+    return response.data.rating
   }
 }
