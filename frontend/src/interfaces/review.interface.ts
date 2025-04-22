@@ -9,6 +9,11 @@ export interface IReviewWithUser extends IReview {
   user: IReviewUser
 }
 
+export interface IReviewLeaveResponse extends IReview {
+  userId: number
+  productId: number
+}
+
 export interface IReviewUser {
   id: number
   name: string
