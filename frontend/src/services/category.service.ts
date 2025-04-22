@@ -20,5 +20,12 @@ export const CategoryService = {
       CATEGORY_ENDPOINTS.GET_BY_SLUG.replace(':slug', slug)
     )
     return response.data
+  },
+
+  async deleteById(categoryId: string): Promise<ICategory> {
+    const response = await instance.delete<ICategory>(
+      CATEGORY_ENDPOINTS.DELETE_BY_ID.replace(':categoryId', categoryId)
+    )
+    return response.data
   }
 }
