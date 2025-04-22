@@ -21,3 +21,11 @@ export interface IProduct extends IProductBase {
   reviews: IReviewWithUser[]
   category: ICategory
 }
+
+export interface IProductDTO {
+  name: string
+  price: number
+  description?: string
+  categoryId: number
+  images?: { imageUrl: string }[]
+}
