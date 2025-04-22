@@ -29,5 +29,12 @@ export const ProductService = {
       PRODUCT_ENDPOINTS.GET_SIMILAR.replace(':productId', productId)
     )
     return response.data
+  },
+
+  async create(): Promise<{ productId: number }> {
+    const response = await instance.post<{ productId: number }>(
+      PRODUCT_ENDPOINTS.CREATE
+    )
+    return response.data
   }
 }
