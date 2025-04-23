@@ -8,5 +8,12 @@ export const UserService = {
       USER_ENDPOINTS.GET_PROFILE
     )
     return response.data
+  },
+
+  async toggleFavorite(productId: string): Promise<{ status: string }> {
+    const response = await instance.patch<{ status: string }>(
+      USER_ENDPOINTS.TOGGLE_FAVORITE.replace(':productId', productId)
+    )
+    return response.data
   }
 }
