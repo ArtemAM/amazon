@@ -1,12 +1,24 @@
 import { instance } from '@/api/api.interceptor'
 import { PRODUCT_ENDPOINTS } from '@/config/api'
 import {
+  IGetAllProductsQuery,
   IProduct,
   IProductBase,
-  IProductDTO
+  IProductDTO,
+  IProductsResponse
 } from '@/interfaces/product.interface'
 
 export const ProductService = {
+  async getAll(
+    queryData: IGetAllProductsQuery = {}
+  ): Promise<IProductsResponse> {
+    const response = await instance.get<IProductsResponse>(
+      PRODUCT_ENDPOINTS.GET_ALL,
+      { params: queryData }
+    )
+    return response.data
+  },
+
   async getById(productId: string): Promise<IProduct> {
     const response = await instance.get<IProduct>(
       PRODUCT_ENDPOINTS.GET_BY_ID.replace(':productId', productId)
