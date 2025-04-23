@@ -1,4 +1,5 @@
 import { ICategory } from './category.interface'
+import { IPagination } from './pagination.interface'
 import { IReviewWithUser } from './review.interface'
 
 export interface IProductBase {
@@ -28,4 +29,21 @@ export interface IProductDTO {
   description?: string
   categoryId: number
   images?: { imageUrl: string }[]
+}
+
+export enum EnumProductsSort {
+  HIGH_PRICE = 'high-price',
+  LOW_PRICE = 'low-price',
+  NEWEST = 'newest',
+  OLDEST = 'oldest'
+}
+
+export interface IGetAllProductsQuery extends IPagination {
+  sort?: EnumProductsSort
+  searchTerm?: string
+}
+
+export interface IProductsResponse {
+  products: IProduct[]
+  countProducts: number
 }
