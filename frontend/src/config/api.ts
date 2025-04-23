@@ -21,7 +21,7 @@ export const REVIEW_ENDPOINTS = {
 
 export const STATISTICS_ENDPOINTS = {
   GET_USER_OVERVIEW: '/statistics/main'
-}
+} as const
 
 export const PRODUCT_ENDPOINTS = {
   GET_ALL: '/products',
@@ -32,4 +32,10 @@ export const PRODUCT_ENDPOINTS = {
   CREATE: '/products',
   UPDATE_BY_ID: '/products/:productId',
   DELETE_BY_ID: '/products/:productId'
-}
+} as const
+
+export const USER_ENDPOINTS = {
+  GET_PROFILE: '/users/profile',
+  UPDATE_PROFILE: '/users/profile',
+  TOGGLE_FAVORITE: '/users/favorites/:productId'
+} as const
