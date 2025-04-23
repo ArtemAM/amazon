@@ -22,3 +22,11 @@ export interface IUserFavoriteProduct {
 export interface IUserProfile extends IUser {
   favorites: IUserFavoriteProduct[]
 }
+
+export interface IUserUpdateProfile {
+  email: string
+  name?: string
+  password?: string
+  avatarPath?: string
+  phone?: string
+}
