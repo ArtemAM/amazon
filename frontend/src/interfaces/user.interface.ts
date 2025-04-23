@@ -1,3 +1,4 @@
+import { IProductImage } from './product.interface'
 import { IStatisticItem } from './statistic.interface'
 
 export interface IUser {
@@ -9,3 +10,15 @@ export interface IUser {
 }
 
 export type IUserStatistics = IStatisticItem[]
+
+export interface IUserFavoriteProduct {
+  id: number
+  name: string
+  price: number
+  images: IProductImage[]
+  slug: string
+}
+
+export interface IUserProfile extends IUser {
+  favorites: IUserFavoriteProduct[]
+}
